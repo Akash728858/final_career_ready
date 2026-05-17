@@ -43,8 +43,8 @@ export default function DashboardLayout() {
 
   const handleLogout = () => {
     setDropdownOpen(false);
-    logout();
-    navigate('/');
+    alert('You are currently in Demo Mode. Logout is disabled.');
+    navigate('/dashboard');
   };
 
   const handlePhotoChange = (e) => {

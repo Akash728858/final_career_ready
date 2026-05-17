@@ -22,6 +22,12 @@ export async function initDatabase() {
     )
   `);
 
+  // Insert default guest user for Demo Mode
+  db.exec(`
+    INSERT OR IGNORE INTO users (id, email, password_hash, name)
+    VALUES ('guest-user-id', 'guest@example.com', 'none', 'Guest User')
+  `);
+
   // Resumes (multiple per user)
   db.exec(`
     CREATE TABLE IF NOT EXISTS resumes (

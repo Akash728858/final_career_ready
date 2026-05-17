@@ -24,20 +24,9 @@ export function verifyToken(token) {
 
 /**
  * Require authentication - attach req.userId
+ * bypassed for Demo Mode
  */
 export function requireAuth(req, res, next) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-
-  if (!token) {
-    return res.status(401).json({ error: 'Authentication required' });
-  }
-
-  const userId = verifyToken(token);
-  if (!userId) {
-    return res.status(401).json({ error: 'Invalid or expired token' });
-  }
-
-  req.userId = userId;
+  req.userId = 'guest-user-id';
   next();
 }

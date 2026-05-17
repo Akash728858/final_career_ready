@@ -1,52 +1,29 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { authApi } from '../services/api';
+import { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // Hardcoded guest user for demo mode
+  const [user] = useState({
+    id: 'guest-user-id',
+    name: 'Guest User',
+    email: 'guest@example.com'
+  });
+  
+  // No loading state required
+  const loading = false;
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-    authApi.me()
-      .then(({ user }) => setUser(user))
-      .catch(() => {
-        localStorage.removeItem('token');
-        setUser(null);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  const login = async (email, password) => {
-    const data = await authApi.login(email, password);
-    const { user, token } = data || {};
-    if (!token || !user?.id) {
-      console.error('[auth] Login response missing token or user', data);
-      throw new Error('Invalid login response from server.');
-    }
-    localStorage.setItem('token', token);
-    setUser(user);
+  const login = async () => {
+    // No-op for demo mode
   };
 
-  const register = async (email, password, name) => {
-    const data = await authApi.register(email, password, name);
-    const { user, token } = data || {};
-    if (!token || !user?.id) {
-      console.error('[auth] Register response missing token or user', data);
-      throw new Error('Invalid registration response from server.');
-    }
-    localStorage.setItem('token', token);
-    setUser(user);
+  const register = async () => {
+    // No-op for demo mode
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
+    // In demo mode, logout does nothing except maybe alert or redirect
+    // State is maintained as guest user
   };
 
   return (
